@@ -212,8 +212,7 @@ for _, row in a_df.iterrows():
 
     st.markdown(
         f"""
-### 🐴 [{row["馬名"]}]({horse_url})
-
+#### 🐴 [{row["馬名"]}]({horse_url})
 **賞金**：{row["賞金"]}
 
 **戦績**：{row["戦績"]}
