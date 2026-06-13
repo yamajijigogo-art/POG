@@ -50,6 +50,12 @@ def get_next_race(horse_id):
 
         date_text = dd.contents[0].strip()
 
+        date_text = date_text.split("(")[0]
+
+        parts = date_text.split("/")
+
+        date_text = f"{parts[1]}/{parts[2]}"
+
         race_name = box.find(
             "span",
             class_="race_name"
