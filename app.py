@@ -61,7 +61,7 @@ def get_next_race(horse_id):
             class_="race_name"
         ).get_text(strip=True)
 
-        return f"{date_text} {race_name}"
+        return f"{date_text} ｜ {race_name}"
 
     except:
         return "未定"
@@ -216,31 +216,34 @@ for _, row in a_df.iterrows():
 賞金：{row["賞金"]}<br>
 戦績：{row["戦績"]}<br>
 次走：{row["次走"]}
-<hr>
+<hr style="margin:0;">
 """,
         unsafe_allow_html=True
     )
 
+
+
 st.header("B")
+
 
 b_df = result_df[
     result_df["owner"] == "B"
 ].copy()
 
-b_df["馬名"] = [
-    f'<a href="{url}" target="_blank">{horse}</a>'
-    for horse, url in zip(
-        df[df["owner"] == "B"]["horse"],
-        df[df["owner"] == "B"]["url"]
-    )
-]
+for _, row in b_df.iterrows():
 
-st.write(
-    b_df[
-        ["馬名", "賞金", "戦績", "次走"]
-    ].to_html(
-        escape=False,
-        index=False
-    ),
-    unsafe_allow_html=True
-)
+    horse_url = df[
+        (df["owner"] == "B")
+        & (df["horse"] == row["馬名"])
+    ]["url"].iloc[0]
+
+    st.markdown(
+        f"""
+<b>🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a></b><br>
+賞金：{row["賞金"]}<br>
+戦績：{row["戦績"]}<br>
+次走：{row["次走"]}
+<hr style="margin:0;">
+""",
+        unsafe_allow_html=True
+    )
