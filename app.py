@@ -198,6 +198,11 @@ st.dataframe(
 
 st.header("A")
 
+a_df = result_df[
+    result_df["owner"] == "A"
+].copy()
+
+
 for _, row in a_df.iterrows():
 
     horse_url = df[
