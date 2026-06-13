@@ -104,6 +104,8 @@ def get_data():
         )
         record = m2.group(1) if m2 else "取得失敗"
 
+        record = record.split("[")[0].strip()
+
         prize_num = 0
 
         if "億" in prize:
@@ -204,7 +206,7 @@ a_df["馬名"] = [
 
 st.write(
     a_df[
-        ["馬名", "賞金", "次走"]
+        ["馬名", "賞金", "戦績", "次走"]
     ].to_html(
         escape=False,
         index=False
@@ -228,7 +230,7 @@ b_df["馬名"] = [
 
 st.write(
     b_df[
-        ["馬名", "賞金", "次走"]
+        ["馬名", "賞金", "戦績", "次走"]
     ].to_html(
         escape=False,
         index=False
