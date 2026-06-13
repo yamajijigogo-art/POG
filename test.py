@@ -1,19 +1,58 @@
 import requests
+import json
+from bs4 import BeautifulSoup
 
-url = "https://db.netkeiba.com/horse/2022105102/"
+def get_next_race(horse_id):
 
-headers = {
-    "User-Agent": "Mozilla/5.0"
-}
+    url = "https://db.netkeiba.com/social/api_db_horse_info_simple.html"
 
-response = requests.get(url, headers=headers)
+    params = {
+        "input": "UTF-8",
+        "output": "json",
+        "id": horse_id
+    }
 
-text = response.text
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Referer": f"https://db.netkeiba.com/horse/{horse_id}/"
+    }
 
-for word in [
-    "宝塚記念",
-    "近況",
-    "阪神",
-    "2026/6/14"
-]:
-    print(word, "=>", text.find(word))
+    try:
+
+        r = requests.get(
+            url,
+            params=params,
+            headers=headers
+        )
+
+        html = json.loads(r.text)
+
+        soup = BeautifulSoup(html, "html.parser")
+
+        box = soup.find("div", class_="next_race_data_box_01")
+
+        if box is None:
+            return "未定"
+
+        dd = box.find("dd")
+
+        date_text = dd.contents[0].strip()
+
+        race_name = box.find(
+            "span",
+            class_="race_name"
+        ).get_text(strip=True)
+
+        return f"{date_text} {race_name}"
+
+    except:
+        return "未定"
+
+
+print("クロワデュノール")
+print(get_next_race("2022105102"))
+
+print()
+
+print("レイピア")
+print(get_next_race("2022103066"))
