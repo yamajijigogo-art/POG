@@ -192,8 +192,13 @@ top5 = result_df.sort_values(
 ).head(5)
 
 st.dataframe(
-    top5[["馬名", "賞金", "戦績"]],
+    top5[["馬名", "賞金", "戦績", "次走"]],
     use_container_width=True
+)
+view_mode = st.radio(
+    "表示形式",
+    ["カード", "表"],
+    horizontal=True
 )
 
 st.header("A")
@@ -202,48 +207,70 @@ a_df = result_df[
     result_df["owner"] == "A"
 ].copy()
 
+if view_mode == "表":
 
-for _, row in a_df.iterrows():
+    st.dataframe(
+        a_df[
+            ["馬名", "賞金", "戦績", "次走"]
+        ],
+        use_container_width=True
+    )
 
-    horse_url = df[
-        (df["owner"] == "A")
-        & (df["horse"] == row["馬名"])
-    ]["url"].iloc[0]
+else:
 
-    st.markdown(
-        f"""
-<b>🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a></b><br>
+    for _, row in a_df.iterrows():
+
+        horse_url = df[
+            (df["owner"] == "A")
+            & (df["horse"] == row["馬名"])
+        ]["url"].iloc[0]
+
+        st.markdown(
+            f"""
+<span style="font-size:16px;">
+🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a>
+</span><br>
 賞金：{row["賞金"]}<br>
 戦績：{row["戦績"]}<br>
 次走：{row["次走"]}
 <hr style="margin:0;">
 """,
-        unsafe_allow_html=True
-    )
-
-
+            unsafe_allow_html=True
+        )
 
 st.header("B")
-
 
 b_df = result_df[
     result_df["owner"] == "B"
 ].copy()
 
-for _, row in b_df.iterrows():
+if view_mode == "表":
 
-    horse_url = df[
-        (df["owner"] == "B")
-        & (df["horse"] == row["馬名"])
-    ]["url"].iloc[0]
+    st.dataframe(
+        b_df[
+            ["馬名", "賞金", "戦績", "次走"]
+        ],
+        use_container_width=True
+    )
 
-    st.markdown(
-        f"""
-<b>🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a></b><br>
+else:
+
+    for _, row in b_df.iterrows():
+
+        horse_url = df[
+            (df["owner"] == "B")
+            & (df["horse"] == row["馬名"])
+        ]["url"].iloc[0]
+
+        st.markdown(
+            f"""
+<span style="font-size:16px;">
+🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a>
+</span><br>
 賞金：{row["賞金"]}<br>
 戦績：{row["戦績"]}<br>
 次走：{row["次走"]}
 <hr style="margin:0;">
 """,
-        unsafe_allow_html=True
-    )
+            unsafe_allow_html=True
+        )
