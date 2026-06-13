@@ -198,27 +198,26 @@ st.dataframe(
 
 st.header("A")
 
-a_df = result_df[
-    result_df["owner"] == "A"
-].copy()
+for _, row in a_df.iterrows():
 
-a_df["馬名"] = [
-    f'<a href="{url}" target="_blank">{horse}</a>'
-    for horse, url in zip(
-        df[df["owner"] == "A"]["horse"],
-        df[df["owner"] == "A"]["url"]
+    horse_url = df[
+        (df["owner"] == "A")
+        & (df["horse"] == row["馬名"])
+    ]["url"].iloc[0]
+
+    st.markdown(
+        f"""
+### 🐴 [{row["馬名"]}]({horse_url})
+
+**賞金**：{row["賞金"]}
+
+**戦績**：{row["戦績"]}
+
+**次走**：{row["次走"]}
+
+---
+"""
     )
-]
-
-st.write(
-    a_df[
-        ["馬名", "賞金", "戦績", "次走"]
-    ].to_html(
-        escape=False,
-        index=False
-    ),
-    unsafe_allow_html=True
-)
 
 st.header("B")
 
