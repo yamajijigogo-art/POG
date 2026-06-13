@@ -212,15 +212,13 @@ for _, row in a_df.iterrows():
 
     st.markdown(
         f"""
-#### 🐴 [{row["馬名"]}]({horse_url})
-**賞金**：{row["賞金"]}
-
-**戦績**：{row["戦績"]}
-
-**次走**：{row["次走"]}
-
----
-"""
+<b>🐴 <a href="{horse_url}" target="_blank">{row["馬名"]}</a></b><br>
+賞金：{row["賞金"]}<br>
+戦績：{row["戦績"]}<br>
+次走：{row["次走"]}
+<hr>
+""",
+        unsafe_allow_html=True
     )
 
 st.header("B")
